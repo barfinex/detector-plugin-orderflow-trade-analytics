@@ -1,0 +1,12 @@
+{
+  "name": "@barfinex/detector-plugin-orderflow-trade-analytics",
+  "version": "0.1.0",
+  "description": "Advanced order flow analytics plugin: delta ratio, CVD, VWAP of large trades, order book imbalance.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.app.json",
+    "lint": "eslint 'src/**/*.ts'"
+  },
+  "license": "Apache-2.0"
+}
