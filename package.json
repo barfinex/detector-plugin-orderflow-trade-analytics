@@ -2,7 +2,7 @@
   "name": "@barfinex/detector-plugin-orderflow-trade-analytics",
   "version": "0.0.0-development",
   "private": false,
-  "description": "Shared Detector Plugin orderflow-trade-analytics for Barfinex ecosystem",
+  "description": "Detector plugin Orderflow Trade Analytics for the Barfinex ecosystem. Provides order flow analysis, trade monitoring, and advanced analytics capabilities for detectors.",
   "author": "Barfinex",
   "license": "MIT",
   "homepage": "https://github.com/barfinex/detector-plugin-orderflow-trade-analytics#readme",
@@ -22,6 +22,30 @@
     "build": "tsc -p tsconfig.app.json",
     "clean": "rimraf dist",
     "release": "semantic-release"
+  },
+  "keywords": [
+    "barfinex",
+    "detector",
+    "plugin",
+    "orderflow",
+    "trade",
+    "analytics",
+    "orderflow-trade-analytics",
+    "trading",
+    "market-data",
+    "market-analysis",
+    "nestjs",
+    "nestjs-module",
+    "typescript",
+    "quant",
+    "backtesting"
+  ],
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/swagger": "^7.1.10",
+    "@barfinex/detector": "workspace:*",
+    "@barfinex/types": "workspace:*",
+    "@barfinex/utils": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.6.0",

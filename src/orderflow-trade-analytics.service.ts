@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
     Trade,
     TradeSide,
@@ -18,11 +18,11 @@ import {
     AnalyticsConfig,
 } from './types/metrics.types';
 
-
-import { DetectorPluginService } from '@barfinex/detector/detector-plugin.service';
+import { DetectorPluginService } from '@barfinex/detector';
 
 @Injectable()
 export class OrderflowTradeAnalyticsService extends DetectorPluginService {
+    protected readonly logger = new Logger(OrderflowTradeAnalyticsService.name);
     private readonly cfg: AnalyticsConfig = { ...DEFAULT_CFG };
     private readonly state = new Map<string, OrderflowState>();
 
@@ -39,7 +39,7 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
         pluginApi: '/plugins-api/orderflow-trade-analytics-dev',
     };
 
-    // 🔹 Публичный API для использования стратегиями
+    // 🔹 Публичный API для стратегий
     api = {
         ingestTrade: (dto: IngestTradeDto) => this.ingestTrade(dto),
         ingestOrderbook: (dto: IngestOrderbookDto) => this.ingestOrderbook(dto),
@@ -53,21 +53,17 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
             this.getBigTradesVWAPFromState(symbol, thresholdUsd),
     };
 
-    // ================= Реализация хуков =================
+    // ================= Plugin Hooks =================
 
-async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
-        console.log("test!!!!");
+    async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         this.logger.log(`[onStart] ${this.name} for ${ctx.detectorContext.name}`);
     }
 
-
     async [PluginHook.onInit](ctx: PluginContext): Promise<void> {
-        console.log("test!!!!");
         this.logger.log(`[onInit] ${this.name} for ${ctx.detectorContext.name}`);
     }
 
     async [PluginHook.onTrade](_ctx: PluginContext, trade: Trade): Promise<void> {
-        // console.log("test!!!!");
         this.ingestTrade({
             symbol: trade.symbol.name,
             price: trade.price,
@@ -89,7 +85,7 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         });
     }
 
-    // ================= Внутренняя логика =================
+    // ================= Internal Logic =================
 
     private ensure(symbol: string): OrderflowState {
         if (!this.state.has(symbol)) {
@@ -118,12 +114,6 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         if (st.trades.length > this.cfg.maxTradesMemory) st.trades.pop();
         st.cvd += trade.side === TradeSide.LONG ? trade.volume : -trade.volume;
         st.lastUpdate = Date.now();
-    }
-
-    public test() {
-
-        console.log("test method called");
-
     }
 
     public ingestOrderbook(dto: IngestOrderbookDto): void {
@@ -188,9 +178,9 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         };
     }
 
-    // ================= Методы для VolumeFollow =================
+    // ================= VolumeFollow Helpers =================
 
-    /** Дисбаланс стакана */
+    /** Orderbook imbalance */
     public getOrderBookImbalanceFromState(symbol: string): number | null {
         const st = this.ensure(symbol);
         if (!st.orderbook) return null;
@@ -199,7 +189,7 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         return bidVol / (askVol + 1e-9);
     }
 
-    /** Дельта последних N трейдов */
+    /** Delta of last N trades */
     public getTradeDeltaByLastN(symbol: string, n: number): number {
         const st = this.ensure(symbol);
         const recent = st.trades.slice(0, n);
@@ -216,7 +206,7 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         return total > 0 ? buyVol / (total + 1e-9) : 0.5;
     }
 
-    /** VWAP крупных сделок */
+    /** VWAP of big trades */
     public getBigTradesVWAPFromState(
         symbol: string,
         thresholdUsd: number,
@@ -227,7 +217,10 @@ async [PluginHook.onStart](ctx: PluginContext): Promise<void> {
         );
         if (!bigs.length) return null;
 
-        const value = bigs.reduce((s, t) => s + (t.price ?? 0) * (t.volume ?? 0), 0);
+        const value = bigs.reduce(
+            (s, t) => s + (t.price ?? 0) * (t.volume ?? 0),
+            0,
+        );
         const vol = bigs.reduce((s, t) => s + (t.volume ?? 0), 0);
         return value / (vol + 1e-9);
     }
