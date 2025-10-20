@@ -43,9 +43,9 @@
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/swagger": "^7.1.10",
-    "@barfinex/detector": "workspace:*",
-    "@barfinex/types": "workspace:*",
-    "@barfinex/utils": "workspace:*"
+    "@barfinex/detector": "*",
+    "@barfinex/types": "*",
+    "@barfinex/utils": "*"
   },
   "devDependencies": {
     "typescript": "^5.6.0",
