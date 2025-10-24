@@ -1,14 +1,11 @@
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
     "declaration": true,
     "emitDeclarationOnly": false,
-    "declarationDir": "./dist",
     "rootDir": "./src",
-    "outDir": "../../dist/libs/plugin-orderflow-trade-analytics",
-    "tsBuildInfoFile": "../../dist/libs/plugin-orderflow-trade-analytics.tsbuildinfo",
+    "outDir": "./dist",
     "strict": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
@@ -16,23 +13,18 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "incremental": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node", "reflect-metadata"],
+    "baseUrl": "./",
+    "paths": {
+      "@barfinex/detector": ["./node_modules/@barfinex/detector"],
+      "@barfinex/types": ["./node_modules/@barfinex/types"],
+      "@barfinex/utils": ["./node_modules/@barfinex/utils"]
+    }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ],
-  "references": [
-    {
-      "path": "../../detector"
-    }, // ✅ линк на libs/detector
-    {
-      "path": "../../types"
-    } // ✅ линк на libs/types (нужен для PluginHook/Trade и т.п.)
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
 }

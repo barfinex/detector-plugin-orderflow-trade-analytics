@@ -41,11 +41,11 @@
     "backtesting"
   ],
   "dependencies": {
-    "@nestjs/common": "^10.0.0",
-    "@nestjs/swagger": "^7.1.10",
     "@barfinex/detector": "*",
     "@barfinex/types": "*",
-    "@barfinex/utils": "*"
+    "@barfinex/utils": "*",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/swagger": "^7.1.10"
   },
   "devDependencies": {
     "typescript": "^5.6.0",
