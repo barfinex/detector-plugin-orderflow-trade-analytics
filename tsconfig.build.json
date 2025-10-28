@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@barfinex/detector": [
+                "./node_modules/@barfinex/detector"
+            ],
+            "@barfinex/types": [
+                "./node_modules/@barfinex/types"
+            ],
+            "@barfinex/utils": [
+                "./node_modules/@barfinex/utils"
+            ]
+        }
+    },
+    "references": []
+}

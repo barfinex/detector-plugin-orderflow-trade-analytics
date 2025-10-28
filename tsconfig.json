@@ -5,5 +5,16 @@
     },
     "include": [
         "src"
+    ],
+    "references": [
+        {
+            "path": "../../../libs/detector"
+        },
+        {
+            "path": "../../../libs/types"
+        },
+        {
+            "path": "../../../libs/utils"
+        }
     ]
 }
