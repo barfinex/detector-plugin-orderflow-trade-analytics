@@ -1,29 +1,21 @@
 # @barfinex/detector-plugin-orderflow-trade-analytics
 
-**`@barfinex/detector-plugin-orderflow-trade-analytics`** is a specialized plugin for the [Barfinex](https://barfinex.com) ecosystem, 
-focused on **orderflow analytics** and **market microstructure analysis**.  
-It extends the Barfinex detector framework with advanced capabilities to monitor trade flow, liquidity shifts, 
-and anomalies in order execution.
+**Orderflow and trade analytics plugin** for the [Barfinex](https://barfinex.com) Detector — analyze trade flow, order book imbalance, and market microstructure in real time.
+
+This plugin extends the Detector with metrics that candles alone don’t show: delta, CVD-style aggregates, absorption, and liquidity shifts. Use it from your strategies to improve entries and risk.
 
 ---
 
-## 🚀 Purpose
+## What it does
 
-This plugin enables trading systems to leverage **orderflow-based signals** for better decision-making.  
-It helps detect:
-
-- 📊 **Imbalances in orderflow** — when aggressive buyers or sellers dominate.  
-- 🔎 **Absorption levels** — areas where liquidity providers absorb large amounts of market orders.  
-- ⚡ **Momentum ignition** — detecting sudden bursts of trading activity.  
-- 🏦 **Liquidity shifts** — changes in depth and volume distribution across the order book.  
-- 🔄 **Stop hunts & sweep patterns** — when price pushes through liquidity clusters.  
-
-The goal is to give **quantitative traders** and **systematic strategies** access to real-time market insights that 
-are not visible from candlestick data alone.
+- **Trade ingestion** — `ingestTrade` / `ingestOrderbook` to feed the plugin from detector market-data hooks.
+- **Metrics** — delta ratio, cumulative volume, order book imbalance, large-trade VWAP, and configurable thresholds.
+- **Plugin API** — `getMetrics`, `getDebugState`, `getOrderBookImbalanceFromState`, `getTradeDeltaByLastN` for strategy logic and debugging.
+- **Detector integration** — runs as a detector plugin via `@barfinex/plugin-driver`; registers with Provider so Studio can call its plugin API.
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```sh
 npm install @barfinex/detector-plugin-orderflow-trade-analytics
@@ -37,47 +29,32 @@ yarn add @barfinex/detector-plugin-orderflow-trade-analytics
 
 ---
 
-## 📚 What's Included
+## What's included
 
-The plugin provides a rich set of tools for analyzing orderflow:
-
-- **Analytics Services**  
-  Components to compute metrics such as executed buy/sell volume, delta, and cumulative volume profiles.
-
-- **Orderflow Indicators**  
-  Custom metrics like CVD (Cumulative Volume Delta), Imbalance Ratios, and Aggression Index.
-
-- **Integration Layer**  
-  Works seamlessly with `@barfinex/detector`, `@barfinex/orders`, and `@barfinex/connectors` to process live 
-  and historical data.
-
-- **Configurable Rules**  
-  Traders can define thresholds for imbalances, minimum volume filters, and signal triggers.
+| Export | Purpose |
+|--------|--------|
+| `OrderflowTradeAnalyticsModule` | NestJS module for the plugin. |
+| `OrderflowTradeAnalyticsService` | Plugin service: ingest, metrics, state. |
+| `OrderflowTradeAnalyticsController` | REST/plugin API controller. |
+| `SymbolMetrics`, `OrderflowState`, `AnalyticsConfig`, etc. | Types for metrics and config. |
 
 ---
 
-## 🤝 Contributing
+## Documentation
 
-Contributions are welcome to enhance the **orderflow analytics toolkit**:
-
-- 📌 Add new indicators and metrics.  
-- 🛠 Improve detection algorithms.  
-- 💡 Share real-world trading strategies based on orderflow.  
-
-Join our Telegram community to discuss features: [t.me/barfinex](https://t.me/barfinex)
+- **Detector (host for this plugin)** — [Installation detector](https://barfinex.com/docs/installation-detector) — config and plugin list (e.g. `orderflow-trade-analytics`).
+- **Barfinex overview** — [First Steps](https://barfinex.com/docs/first-steps), [Architecture](https://barfinex.com/docs/architecture), [Glossary](https://barfinex.com/docs/glossary).
+- **APIs** — [Detector API reference](https://barfinex.com/docs/detector-api), [Provider API reference](https://barfinex.com/docs/provider-api), [Building with the API](https://barfinex.com/docs/frontend-api).
+- **Troubleshooting** — [Typical problems and solutions](https://barfinex.com/docs/troubleshooting).
 
 ---
 
-## 📜 License
+## Contributing
 
-This repository is licensed under the [Apache License 2.0](LICENSE) with additional restrictions.
+New metrics and detection ideas welcome. Open an issue or PR. Community: [Telegram](https://t.me/barfinex) · [GitHub](https://github.com/barfinex).
 
-### Key Terms:
-1. **Attribution**: Proper credit must be given to the original author, Barfin Network Limited, with a link to the official website: [https://barfinex.com/](https://barfinex.com/).  
-2. **Non-Commercial Use**: The use of this codebase for commercial purposes is prohibited without explicit written permission.  
-3. **Display Requirements**: For non-commercial use, the following must be displayed:  
-   - The name "Barfin Network Limited".  
-   - The official logo.  
-   - A working link to [https://barfinex.com/](https://barfinex.com/).  
+---
 
-For further details or to request commercial use permissions, contact **Barfin Network Limited** through the official website.  
+## License
+
+Licensed under the [Apache License 2.0](LICENSE) with additional terms. Attribution to **Barfin Network Limited** and a link to [https://barfinex.com](https://barfinex.com) are required. Commercial use requires explicit permission. See [LICENSE](LICENSE) and the [Barfinex site](https://barfinex.com) for details.
