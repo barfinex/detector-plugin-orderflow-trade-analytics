@@ -1,20 +1,26 @@
 {
-    "extends": "./tsconfig.app.json",
-    "compilerOptions": {
-        "composite": true
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "../../detector"
     },
-    "include": [
-        "src"
-    ],
-    "references": [
-        {
-            "path": "../../../libs/detector"
-        },
-        {
-            "path": "../../../libs/types"
-        },
-        {
-            "path": "../../../libs/utils"
-        }
-    ]
+    {
+      "path": "../../types"
+    }
+  ]
 }
