@@ -65,7 +65,7 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
 
   async [PluginHook.onTrade](_ctx: PluginContext, trade: Trade): Promise<void> {
     this.ingestTrade({
-      symbol: trade.instrument.symbol,
+      symbol: trade.symbol.symbol,
       price: trade.price,
       volume: trade.volume,
       side: trade.side,
@@ -78,7 +78,7 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
     orderBook: OrderBook,
   ): Promise<void> {
     this.ingestOrderbook({
-      symbol: orderBook.instrument.symbol,
+      symbol: orderBook.symbol.symbol,
       bids: orderBook.bids,
       asks: orderBook.asks,
       time: orderBook.time,
