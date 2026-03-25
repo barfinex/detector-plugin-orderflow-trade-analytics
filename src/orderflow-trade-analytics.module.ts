@@ -4,20 +4,20 @@ import { OrderflowTradeAnalyticsService } from './orderflow-trade-analytics.serv
 import { ORDERFLOW_ANALYTICS } from './orderflow-trade-analytics.constants';
 
 @Module({
-    controllers: [OrderflowTradeAnalyticsController],
-    providers: [
-        OrderflowTradeAnalyticsService,
-        {
-            provide: ORDERFLOW_ANALYTICS,
-            useExisting: OrderflowTradeAnalyticsService,
-        },
-    ],
-    exports: [ORDERFLOW_ANALYTICS, OrderflowTradeAnalyticsService],
+  controllers: [OrderflowTradeAnalyticsController],
+  providers: [
+    OrderflowTradeAnalyticsService,
+    {
+      provide: ORDERFLOW_ANALYTICS,
+      useExisting: OrderflowTradeAnalyticsService,
+    },
+  ],
+  exports: [ORDERFLOW_ANALYTICS, OrderflowTradeAnalyticsService],
 })
 export class OrderflowTradeAnalyticsModule implements OnModuleInit {
-    private readonly logger = new Logger(OrderflowTradeAnalyticsModule.name);
+  private readonly logger = new Logger(OrderflowTradeAnalyticsModule.name);
 
-    onModuleInit() {
-        this.logger.log('✅ OrderflowTradeAnalyticsModule initialized');
-    }
+  onModuleInit() {
+    this.logger.log('✅ OrderflowTradeAnalyticsModule initialized');
+  }
 }
