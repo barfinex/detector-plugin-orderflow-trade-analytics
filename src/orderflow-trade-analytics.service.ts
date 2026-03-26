@@ -65,7 +65,7 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
 
   async [PluginHook.onTrade](_ctx: PluginContext, trade: Trade): Promise<void> {
     this.ingestTrade({
-      symbol: trade.symbol.symbol,
+      symbol: trade.instrument.symbol,
       price: trade.price,
       volume: trade.volume,
       side: trade.side,
@@ -78,7 +78,7 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
     orderBook: OrderBook,
   ): Promise<void> {
     this.ingestOrderbook({
-      symbol: orderBook.symbol.symbol,
+      symbol: orderBook.instrument.symbol,
       bids: orderBook.bids,
       asks: orderBook.asks,
       time: orderBook.time,
@@ -101,9 +101,9 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
   }
 
   public ingestTrade(dto: IngestTradeDto): void {
-    const st = this.ensure(dto.instrument);
+    const st = this.ensure(dto.symbol);
     const trade: Trade = {
-      symbol: { symbol: dto.instrument } as any,
+      instrument: { symbol: dto.symbol } as any,
       price: dto.price,
       volume: dto.volume,
       side: dto.side,
@@ -117,9 +117,9 @@ export class OrderflowTradeAnalyticsService extends DetectorPluginService {
   }
 
   public ingestOrderbook(dto: IngestOrderbookDto): void {
-    const st = this.ensure(dto.instrument);
+    const st = this.ensure(dto.symbol);
     const ob: OrderbookSnapshot = {
-      symbol: { symbol: dto.instrument } as any,
+      instrument: { symbol: dto.symbol } as any,
       bids: dto.bids ?? [],
       asks: dto.asks ?? [],
       time: dto.time ?? Date.now(),
